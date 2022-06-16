@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const [confirmations, setConfirmations] = useState<any[]>([]);
   const [receipt, setReceipt] = useState<any>();
 
-  const trackConfirmation = useCallback((confirmation) => {
+  const trackConfirmation = useCallback((confirmation: number) => {
     console.log(confirmation);
     setConfirmations(old => ([...old, confirmation]));
   },[])
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       setReceipt(r)
     });
     
-  },[web3,  account])
+  },[web3,  account, trackConfirmation])
 
   return (
     <Container maxW="container.xl" p="2" h="100vh" as={Flex} direction="column">
