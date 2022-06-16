@@ -1,12 +1,10 @@
-import { providers } from "ethers";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { ethers } from "ethers";
+import Web3 from "web3";
 import Web3Modal from "web3modal";
 
 interface IWeb3Resources {
-  provider?: providers.Web3Provider;
-  signer?: ethers.Signer;
+  web3?: Web3;
   account?: string;
   chainId?: number;
 }
@@ -55,18 +53,17 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     if (!web3Modal) return;
     const instance =  provider ? web3Modal.connectTo(provider) : web3Modal.connect();
     const _instance = await instance;
-    const _provider = new providers.Web3Provider(_instance);
-    const signer = await _provider.getSigner();
-    const account = await signer.getAddress();
+
+    const web3 = new Web3(_instance);   
+    const accounts = await web3.eth.getAccounts();
+    const userAccount = accounts[0]
 
     setWeb3Resources({
-      provider: _provider,
-      signer,
-      account,
+      web3: web3,
+      account: userAccount,
       chainId: Number(_instance.chainId),
     });
     _instance.on("accountsChanged", (accounts: string[]) => {
-      console.log(accounts);
       setWeb3Resources((old) => ({
         ...old,
         account: accounts[0],
