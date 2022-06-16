@@ -79,12 +79,12 @@ const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   },[web3Modal]);
 
   useEffect(() => {
-    if (web3Modal) {
-      const p = web3Modal.cachedProvider;
-      if (p) {
-        connect(p);
-      }
-    }
+    // if (web3Modal) {
+    //   const p = web3Modal.cachedProvider;
+    //   if (p) {
+    //     connect(p);
+    //   }
+    // }
   },[web3Modal, connect])
 
 
